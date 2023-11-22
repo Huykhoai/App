@@ -1,7 +1,5 @@
 package com.example.assignment.Activity;
 
-import static java.lang.Integer.*;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,7 +22,6 @@ import com.example.assignment.R;
 import com.example.assignment.util.server;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;

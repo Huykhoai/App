@@ -7,23 +7,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -198,7 +194,10 @@ public class MainActivity extends AppCompatActivity   {
                        break;
                    case 2:
                        Intent intent2 = new Intent(getApplicationContext(), TaingheActivity.class);
-                       intent2.putExtra("idloaitainghe", mangloaisp.get(i).getId());
+                       Bundle bundle1 = new Bundle();
+                       bundle1.putSerializable("idloaitainghe", mangloaisp.get(i).getId());
+                       bundle1.putString("user",user);
+                       intent2.putExtras(bundle1);
                        startActivity(intent2);
                        drawerLayout.closeDrawer(GravityCompat.START);
                        break;
