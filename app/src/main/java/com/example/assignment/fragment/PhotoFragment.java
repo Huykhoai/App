@@ -45,6 +45,7 @@ public class PhotoFragment extends Fragment {
            Bundle bundle = getArguments();
         Photo photo = (Photo) bundle.getSerializable("objImage");
         ImageView imageView = view.findViewById(R.id.image_fragment);
+
         imageView.setImageResource(photo.getIdImage());
         return view;
 

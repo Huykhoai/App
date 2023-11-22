@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -42,15 +43,13 @@ public class LoginActivity extends AppCompatActivity {
     TextView register;
     Button btnLogin,btnRegister,btnCancel;
     CheckBox checkBox;
-    ArrayList<User> arrayList;
-    User user;
     int temp=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Anhxa();
-        OnclickButton();
+        onclickButton();
     }
     private void openDialog(){
         final Dialog dialog = new Dialog(this);
@@ -78,11 +77,11 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate();
 
                 String name = edRegisterName.getText().toString();
                 String pass = edRegisterPass.getText().toString();
                 String cofirm = edRegisterCF.getText().toString();
+                validate(name, pass,cofirm);
                 if(temp==0){
                     RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdanregister, new Response.Listener<String>() {
@@ -147,54 +146,64 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private void OnclickButton(){
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdanlogin, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        String name = edName.getText().toString();
-                        String pass =edPass.getText().toString();
-                        if(name.isEmpty()){
-                            tilName.setError("Tài khoản không được để trống");
-                        }else{
-                            tilName.setError("");
-                        }
-                        if(pass.isEmpty()){
-                            tilPass.setError("mật khẩu không được để trống");
-                        }else {
-                            tilPass.setError("");
-                        }
-                        if(response.equals("1")){
-                            Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("user", name);
-                            startActivity(intent);
-                        }else {
-                            Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
-                        }
-                        rememberUser(name,pass,checkBox.isChecked());
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+    private void onclickButton(){
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String name = edName.getText().toString().trim();
+                    String pass = edPass.getText().toString().trim();
+                    if (validateLogin(name, pass) > 0) {
+                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdanlogin, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
+
+                            if (response.equals("1")) {
+                                Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("user", name);
+                                startActivity(intent);
+                                rememberUser(name, pass, checkBox.isChecked());
+                            } else {
+                                Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    }) {
+                        @Nullable
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String, String> params = new HashMap<>();
+                            params.put("username", edName.getText().toString());
+                            params.put("password", edPass.getText().toString());
+                            return params;
+                        }
+                    };
+                    requestQueue.add(stringRequest);
+                }
+                }
+            });
+
+            tilPass.setEndIconOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(edPass!= null){
+                        if(edPass.getTransformationMethod()== null){
+                            edPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        }else {
+                            edPass.setTransformationMethod(null);
+                        }
+                        edPass.setSelection(edPass.getText().length());
                     }
-                }){
-                    @Nullable
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> params = new HashMap<>();
-                        params.put("username", edName.getText().toString());
-                        params.put("password", edPass.getText().toString());
-                        return params;
-                    }
-                };
-                requestQueue.add(stringRequest);
-            }
-        });
+                }
+            });
+
     }
     private void rememberUser(String u,String p, boolean status){
         SharedPreferences sharedPreferences =getSharedPreferences("THONGTIN", MODE_PRIVATE);
@@ -209,10 +218,8 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    private void validate(){
-        String name = edRegisterName.getText().toString();
-        String pass = edRegisterPass.getText().toString();
-        String cofirm = edRegisterCF.getText().toString();
+    private void validate(String name,String pass,String confirm){
+
         if(name.isEmpty()){
             tilRegisterName.setError("Chưa nhập tên");
             temp++;
@@ -227,19 +234,37 @@ public class LoginActivity extends AppCompatActivity {
             tilRegisterPass.setError("");
             temp=0;
         }
-        if(cofirm.isEmpty()){
+        if(confirm.isEmpty()){
             tilRegisterCF.setError("Chưa nhập tên");
             temp++;
         }else {
             tilRegisterCF.setError("");
             temp=0;
         }
-        if(pass.equals(cofirm)){
+        if(pass.equals(confirm)){
             tilRegisterCF.setError("");
             temp=0;
         }else {
             tilRegisterCF.setError("Mật khẩu xác nhận không đúng!");
             temp++;
         }
+    }
+    private int validateLogin(String name,String pass){
+        int a=1;
+        if (name.length()==0) {
+            tilName.setError("Chưa nhập username");
+            a=-1;
+        } else {
+            tilName.setError("");
+            a++;
+        }
+        if(pass.length()==0){
+            tilPass.setError("Chưa nhập pass");
+            a=-1;
+        }else {
+            tilPass.setError("");
+            a++;
+        }
+        return  a;
     }
 }

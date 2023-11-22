@@ -189,8 +189,10 @@ public class MainActivity extends AppCompatActivity   {
                        break;
                    case 1:
                        Intent intent1 = new Intent(getApplicationContext(), DonghoActivity.class);
-                       intent1.putExtra("idloaisanpham", mangloaisp.get(i).getId());
-                       intent1.putExtra("user", user);
+                       Bundle bundle= new Bundle();
+                       bundle.putSerializable("idloaisanpham", mangloaisp.get(i).getId());
+                       bundle.putString("user", user);
+                       intent1.putExtras(bundle);
                        startActivity(intent1);
                        drawerLayout.closeDrawer(GravityCompat.START);
                        break;

@@ -69,10 +69,10 @@ public class ThongtinkhachhangActivity extends AppCompatActivity {
                                 Log.d( "machitiet ",response);
                                 if(response.equals("1")){
                                     MainActivity.manggiohang.clear();
-                                    Toast.makeText(ThongtinkhachhangActivity.this, "Bạn đã thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ThongtinkhachhangActivity.this, "Bạn đã mua hàng thành công", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                     startActivity(intent);
-                                    Toast.makeText(ThongtinkhachhangActivity.this, "Mời ạn tiếp tục mua hàng", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ThongtinkhachhangActivity.this, "Mời bạn tiếp tục mua hàng", Toast.LENGTH_SHORT).show();
                                 }else {
                                     Toast.makeText(ThongtinkhachhangActivity.this, "Giỏ hàng của bạn bị lỗi", Toast.LENGTH_SHORT).show();
                                 }
