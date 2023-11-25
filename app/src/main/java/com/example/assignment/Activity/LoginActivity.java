@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -81,13 +82,14 @@ public class LoginActivity extends AppCompatActivity {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdanregister, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                           if(!response.equals("-1")){
-                               Toast.makeText(LoginActivity.this, "Đăng kí thành công!", Toast.LENGTH_SHORT).show();
+                           if(response.equals("-1")){
+                               Toast.makeText(LoginActivity.this, "Đăng kí thất bại!", Toast.LENGTH_SHORT).show();
                                dialog.dismiss();
                            }else if(response.equals("0")){
                                Toast.makeText(LoginActivity.this, "Tên tài khoản đã tồn tại!", Toast.LENGTH_SHORT).show();
                            }else {
-                               Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
+                               dialog.dismiss();
+                               Toast.makeText(LoginActivity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
                            }
                         }
                     }, new Response.ErrorListener() {
@@ -102,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                             HashMap<String,String> param = new HashMap<>();
                             param.put("username", name);
                             param.put("pass", pass);
-                            param.put("confirm", cofirm);
                             return param;
                         }
                     };
@@ -151,16 +152,17 @@ public class LoginActivity extends AppCompatActivity {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdanlogin, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-
-
-                            if (response.equals("1")) {
+                            Log.d( "onResponse: ",response);
+                            if (Integer.parseInt(response.trim())>=0) {
                                 Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 intent.putExtra("user", name);
+                                intent.putExtra("pass", pass);
                                 startActivity(intent);
                                 rememberUser(name, pass, checkBox.isChecked());
                             } else {
-                                Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Thất bại", Toast.LENGTH_SHORT).show();
+                                Log.d( "passLOgin: ", response);
                             }
 
                         }

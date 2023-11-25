@@ -12,5 +12,5 @@ public class server {
     public static String duongdaninsertsp =localhost +"/insertsp.php";
     public static String duongdanupdatesp =localhost +"/updatesp.php";
     public static String duongdandelete =localhost +"/delete.php";
-
+    public static String duongdandoimatkhau =localhost +"/doimatkhau.php";
 }

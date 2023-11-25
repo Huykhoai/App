@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -50,7 +51,7 @@ import me.relex.circleindicator.CircleIndicator3;
 public class MainActivity extends AppCompatActivity   {
     public static ArrayList<Giohang> manggiohang;
 
-         String user;
+         String user,pass;
          Toolbar toolbar;
          DrawerLayout drawerLayout;
          RecyclerView recyclerView;
@@ -190,7 +191,6 @@ public class MainActivity extends AppCompatActivity   {
                        bundle.putString("user", user);
                        intent1.putExtras(bundle);
                        startActivity(intent1);
-                       drawerLayout.closeDrawer(GravityCompat.START);
                        break;
                    case 2:
                        Intent intent2 = new Intent(getApplicationContext(), TaingheActivity.class);
@@ -199,10 +199,24 @@ public class MainActivity extends AppCompatActivity   {
                        bundle1.putString("user",user);
                        intent2.putExtras(bundle1);
                        startActivity(intent2);
-                       drawerLayout.closeDrawer(GravityCompat.START);
                        break;
 
+                   case 3:
+                       Intent intent3 = new Intent(MainActivity.this, DoimatKhauActivity.class);
+                       Bundle bundle2 = new Bundle();
+                       bundle2.putString("user",user);
+                       bundle2.putString("pass", pass);
+                       intent3.putExtras(bundle2);
+                       startActivity(intent3);
+                       break;
+                   case 4:
+                       Intent intent4 = new Intent(MainActivity.this, LogOutActivity.class);
+                       startActivity(intent4);
+                       break;
+                   default:
+                       break;
                }
+               drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
     }
@@ -225,20 +239,21 @@ public class MainActivity extends AppCompatActivity   {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(server.duongdanloaisp, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                for (int i=0; i< response.length();i++){
+                for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
                         idloaisp = jsonObject.getInt("id");
-                         tenloaisp = jsonObject.getString("tenloaisapham");
-                         hinhanhloaisp = jsonObject.getString("hinhloaisanpham");
-                         mangloaisp.add(new Loaisanpham(idloaisp,tenloaisp,hinhanhloaisp));
-                         adapterloaisp.notifyDataSetChanged();
+                        tenloaisp = jsonObject.getString("tenloaisapham");
+                        hinhanhloaisp = jsonObject.getString("hinhloaisanpham");
+                        mangloaisp.add(new Loaisanpham(idloaisp, tenloaisp, hinhanhloaisp));
+                        adapterloaisp.notifyDataSetChanged();
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
                 }
-               mangloaisp.add(3,new Loaisanpham(0, "Đổi Mật khẩu", "https://img.freepik.com/premium-vector/password-reset-icon-flat-vector-design_116137-4571.jpg"));
-               mangloaisp.add(4,new Loaisanpham(0, "Logout", "https://w7.pngwing.com/pngs/475/85/png-transparent-computer-icons-logout-angle-text-black-thumbnail.png"));
+                    mangloaisp.add(3, new Loaisanpham(0, "Đổi Mật khẩu", "https://img.freepik.com/premium-vector/password-reset-icon-flat-vector-design_116137-4571.jpg"));
+                    mangloaisp.add(4, new Loaisanpham(0, "Logout", "https://w7.pngwing.com/pngs/475/85/png-transparent-computer-icons-logout-angle-text-black-thumbnail.png"));
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -278,6 +293,7 @@ public class MainActivity extends AppCompatActivity   {
         recyclerView.setAdapter(adaptermoinhat);
         Intent intent = getIntent();
          user = intent.getStringExtra("user");
+         pass = intent.getStringExtra("pass");
 
     }
 
