@@ -73,6 +73,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnxacnhan"
+                android:backgroundTint="#ffde03"
+                android:textColor="@color/black"
                 android:text="Xác nhận"
                 />
             <Button
@@ -80,6 +82,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btnquaylai"
                 android:text="Quay lại"
+                android:backgroundTint="#B00020"
+                android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center"/>
         </LinearLayout>

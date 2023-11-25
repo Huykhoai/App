@@ -24,7 +24,7 @@ public class ChitietsanphamActivity extends AppCompatActivity {
         TextView txtName,txtGia,txtChitiet;
         ImageView imageView;
         Spinner spinner;
-        Button button;
+        TextView button;
         int id =0;
         String tensp="";
         int giasp=0;

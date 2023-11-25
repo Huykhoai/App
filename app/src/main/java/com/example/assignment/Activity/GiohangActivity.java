@@ -22,7 +22,7 @@ public class GiohangActivity extends AppCompatActivity {
      ListView listView;
      public  static TextView Tvtongtien;
      TextView thongbao;
-     Button btnXacnhan,btnQuayve;
+     TextView btnXacnhan,btnQuayve;
      AdapterGiohang adapterGiohang;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

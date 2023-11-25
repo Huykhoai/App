@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity   {
         ViewPager2 viewPager2;
         List<Photo> listphoto;
         CircleIndicator3 circleIndicator3;
+        View view;
         Handler handler = new Handler(Looper.myLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -291,10 +292,11 @@ public class MainActivity extends AppCompatActivity   {
             }
         });
         recyclerView.setAdapter(adaptermoinhat);
-        Intent intent = getIntent();
+        //lấy data từ login
+         Intent intent = getIntent();
          user = intent.getStringExtra("user");
          pass = intent.getStringExtra("pass");
-
+        //
     }
 
     @Override

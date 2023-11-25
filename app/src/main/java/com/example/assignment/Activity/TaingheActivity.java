@@ -2,10 +2,12 @@ package com.example.assignment.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -366,10 +368,26 @@ public class TaingheActivity extends AppCompatActivity {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdandelete, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            dialog.dismiss();
-                            mangtainghe.remove(a);
-                            adaptertainghe.notifyDataSetChanged();
-                            Toast.makeText(TaingheActivity.this, response, Toast.LENGTH_SHORT).show();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(TaingheActivity.this);
+                            builder.setTitle("Thông báo");
+                            builder.setMessage("Bạn có muốn xóa không?");
+                            builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialog.dismiss();
+                                    mangtainghe.remove(a);
+                                    adaptertainghe.notifyDataSetChanged();
+                                    Toast.makeText(TaingheActivity.this, response, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            });
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -464,7 +482,7 @@ public class TaingheActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         user= intent.getStringExtra("user");
-        if(user.equals("admin")){
+        if(user.equalsIgnoreCase("admin")){
             fab.setVisibility(View.VISIBLE);
         }else {
             fab.setVisibility(View.INVISIBLE);

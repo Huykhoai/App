@@ -2,6 +2,7 @@ package com.example.assignment.Activity;
 
 import android.app.Dialog;
 import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -239,10 +241,25 @@ public class DonghoActivity extends AppCompatActivity {
                  StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdandelete, new Response.Listener<String>() {
                      @Override
                      public void onResponse(String response) {
-                         dialog.dismiss();
-                      mangsanpham.remove(a);
-                      adapterSanpham.notifyDataSetChanged();
-                         Toast.makeText(DonghoActivity.this, response, Toast.LENGTH_SHORT).show();
+                         AlertDialog.Builder builder = new AlertDialog.Builder(DonghoActivity.this);
+                         builder.setTitle("Thông báo");
+                         builder.setMessage("Bạn có muốn xóa không?");
+                         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                             @Override
+                             public void onClick(DialogInterface dialogInterface, int i) {
+                                 dialog.dismiss();
+                                 mangsanpham.remove(a);
+                                 adapterSanpham.notifyDataSetChanged();
+                                 Toast.makeText(DonghoActivity.this, response, Toast.LENGTH_SHORT).show();
+                             }
+                         });
+                         builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                             @Override
+                             public void onClick(DialogInterface dialogInterface, int i) {
+                             }
+                         });
+                         AlertDialog alertDialog = builder.create();
+                         alertDialog.show();
                      }
                  }, new Response.ErrorListener() {
                      @Override
