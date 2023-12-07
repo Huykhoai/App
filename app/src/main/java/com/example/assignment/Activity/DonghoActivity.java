@@ -142,6 +142,7 @@ public class DonghoActivity extends AppCompatActivity {
                             Log.d("onResponse: ", response);
                             if (!response.equals("0")) {
                                 Toast.makeText(DonghoActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
                                 mangsanpham.add(new Sanpham(Integer.parseInt(response.trim()),name,Integer.parseInt(price), desc,image,idloaisanpham));
                                 adapterSanpham.notifyDataSetChanged();
 
@@ -201,20 +202,25 @@ public class DonghoActivity extends AppCompatActivity {
                             StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdanupdatesp, new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Log.d("errro: ",response);
-                                    dialog.dismiss();
-                                    Sanpham sanphamUpdate = mangsanpham.get(a);
-                                    sanphamUpdate.setTensanpham(name);
-                                    sanphamUpdate.setGiasanpham(Integer.parseInt(price));
-                                    sanphamUpdate.setMotasanpham(desc);
-                                    sanphamUpdate.setHinhanhsanpham(image);
-                                    adapterSanpham.notifyDataSetChanged();
-                                    Toast.makeText(DonghoActivity.this, response, Toast.LENGTH_SHORT).show();
+                                    if(response.equals("1")){
+                                        dialog.dismiss();
+                                        Sanpham sanphamUpdate = mangsanpham.get(a);
+                                        sanphamUpdate.setTensanpham(name);
+                                        sanphamUpdate.setGiasanpham(Integer.parseInt(price));
+                                        sanphamUpdate.setMotasanpham(desc);
+                                        sanphamUpdate.setHinhanhsanpham(image);
+                                        adapterSanpham.notifyDataSetChanged();
+                                        Toast.makeText(DonghoActivity.this, "Cập nhập thành công", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(DonghoActivity.this, response, Toast.LENGTH_SHORT).show();
+                                        Log.d( "onResponse: ",response.toString());
+                                    }
+
                                 }
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(DonghoActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                                    Log.d( "onErrorResponse: ", error.toString());
                                 }
                             }){
                                 @Nullable
@@ -226,7 +232,6 @@ public class DonghoActivity extends AppCompatActivity {
                                     params.put("price", price);
                                     params.put("desc", desc);
                                     params.put("image", image);
-                                    params.put("idloaisp", String.valueOf(idloaisanpham));
                                     return params;
                                 }
                             };
@@ -241,25 +246,10 @@ public class DonghoActivity extends AppCompatActivity {
                  StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdandelete, new Response.Listener<String>() {
                      @Override
                      public void onResponse(String response) {
-                         AlertDialog.Builder builder = new AlertDialog.Builder(DonghoActivity.this);
-                         builder.setTitle("Thông báo");
-                         builder.setMessage("Bạn có muốn xóa không?");
-                         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                             @Override
-                             public void onClick(DialogInterface dialogInterface, int i) {
-                                 dialog.dismiss();
-                                 mangsanpham.remove(a);
-                                 adapterSanpham.notifyDataSetChanged();
-                                 Toast.makeText(DonghoActivity.this, response, Toast.LENGTH_SHORT).show();
-                             }
-                         });
-                         builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                             @Override
-                             public void onClick(DialogInterface dialogInterface, int i) {
-                             }
-                         });
-                         AlertDialog alertDialog = builder.create();
-                         alertDialog.show();
+                         dialog.dismiss();
+                         mangsanpham.remove(a);
+                         adapterSanpham.notifyDataSetChanged();
+                         Toast.makeText(DonghoActivity.this, response, Toast.LENGTH_SHORT).show();
                      }
                  }, new Response.ErrorListener() {
                      @Override
@@ -448,8 +438,8 @@ public class DonghoActivity extends AppCompatActivity {
          mhander = new mhander();
 
         Intent intent = getIntent();
-        user= intent.getStringExtra("user");
-        if(user.equals("admin")){
+        user= intent.getStringExtra("email");
+        if(user.equals("admin@gmail.com")){
             fab.setVisibility(View.VISIBLE);
         }else {
             fab.setVisibility(View.INVISIBLE);

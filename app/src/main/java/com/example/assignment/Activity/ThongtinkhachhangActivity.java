@@ -59,52 +59,59 @@ public class ThongtinkhachhangActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final String madonhang) {
                             Log.d( "madonhang: ", madonhang);
-                        RequestQueue requestQueue1 = Volley.newRequestQueue(getApplicationContext());
-                        StringRequest stringRequest1 = new StringRequest(Request.Method.POST, server.chitietdonhang, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.d( "machitiet ",response);
-                                if(response.equals("1")){
-                                    MainActivity.manggiohang.clear();
-                                    Toast.makeText(ThongtinkhachhangActivity.this, "Bạn đã mua hàng thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                                    startActivity(intent);
-                                    Toast.makeText(ThongtinkhachhangActivity.this, "Mời bạn tiếp tục mua hàng", Toast.LENGTH_SHORT).show();
-                                }else {
-                                    Toast.makeText(ThongtinkhachhangActivity.this, "Giỏ hàng của bạn bị lỗi", Toast.LENGTH_SHORT).show();
-                                }
+                            if(Integer.parseInt(madonhang)>0){
+                                RequestQueue requestQueue1 = Volley.newRequestQueue(getApplicationContext());
+                                StringRequest stringRequest1 = new StringRequest(Request.Method.POST, server.chitietdonhang, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Log.d( "machitiet ",response);
+                                        if(response.equals("1")){
+                                            MainActivity.manggiohang.clear();
+                                            Toast.makeText(ThongtinkhachhangActivity.this, "Bạn đã mua hàng thành công", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                            startActivity(intent);
+                                            Toast.makeText(ThongtinkhachhangActivity.this, "Mời bạn tiếp tục mua hàng", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            Toast.makeText(ThongtinkhachhangActivity.this, response, Toast.LENGTH_SHORT).show();
+                                            Log.d( "chitieterro: ",response.toString());
+                                        }
 
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                            }
-                        }){
-                            @Nullable
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-                                HashMap<String,String> param = new HashMap<>();
-                                JSONArray jsonArray = new JSONArray();
-                                for(int i=0;i<MainActivity.manggiohang.size();i++){
-                                    JSONObject jsonObject = new JSONObject();
-                                    try {
-
-                                        jsonObject.put("madonhang",madonhang);
-                                        jsonObject.put("masanpham",MainActivity.manggiohang.get(i).getId());
-                                        jsonObject.put("giasanpham", MainActivity.manggiohang.get(i).getGiasp());
-                                        jsonObject.put("soluongsanpham", MainActivity.manggiohang.get(i).getSoluong());
-
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
                                     }
-                                    jsonArray.put(jsonObject);
-                                }
-                                param.put("json", jsonArray.toString());
-                                return param;
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                }){
+                                    @Nullable
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+                                        HashMap<String,String> param = new HashMap<>();
+                                        JSONArray jsonArray = new JSONArray();
+                                        for(int i=0;i<MainActivity.manggiohang.size();i++){
+                                            JSONObject jsonObject = new JSONObject();
+                                            try {
+
+                                                jsonObject.put("madonhang",madonhang);
+                                                jsonObject.put("masanpham",MainActivity.manggiohang.get(i).getId());
+                                                jsonObject.put("giasanpham", MainActivity.manggiohang.get(i).getGiasp());
+                                                jsonObject.put("soluongsanpham", MainActivity.manggiohang.get(i).getSoluong());
+
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                            jsonArray.put(jsonObject);
+                                        }
+                                        param.put("json", jsonArray.toString());
+                                        return param;
+                                    }
+                                };
+                                requestQueue1.add(stringRequest1);
+                            }else {
+                                Toast.makeText(ThongtinkhachhangActivity.this, "Thêm đơn hàng thất bại", Toast.LENGTH_SHORT).show();
                             }
-                        };
-                        requestQueue1.add(stringRequest1);
+
+
                         }
                     }, new Response.ErrorListener() {
                         @Override

@@ -1,7 +1,7 @@
 package com.example.assignment.util;
 
 public class server {
-    public static String localhost = "https://nguyenquanghuydemo1.000webhostapp.com/Api";
+    public static String localhost = "https://huynqph23792.000webhostapp.com";
     public static String duongdanloaisp = localhost+"/loaisanpham.php";
     public static String duongdansanpham = localhost+"/getsanpham.php?page=";
     public static String thongtinkhachhang = localhost+"/thongtinkhachhang.php";

@@ -51,7 +51,7 @@ import me.relex.circleindicator.CircleIndicator3;
 public class MainActivity extends AppCompatActivity   {
     public static ArrayList<Giohang> manggiohang;
 
-         String user,pass;
+         String email,pass;
          Toolbar toolbar;
          DrawerLayout drawerLayout;
          RecyclerView recyclerView;
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity   {
                        Intent intent1 = new Intent(getApplicationContext(), DonghoActivity.class);
                        Bundle bundle= new Bundle();
                        bundle.putSerializable("idloaisanpham", mangloaisp.get(i).getId());
-                       bundle.putString("user", user);
+                       bundle.putString("email", email);
                        intent1.putExtras(bundle);
                        startActivity(intent1);
                        break;
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity   {
                        Intent intent2 = new Intent(getApplicationContext(), TaingheActivity.class);
                        Bundle bundle1 = new Bundle();
                        bundle1.putSerializable("idloaitainghe", mangloaisp.get(i).getId());
-                       bundle1.putString("user",user);
+                       bundle1.putString("email",email);
                        intent2.putExtras(bundle1);
                        startActivity(intent2);
                        break;
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity   {
                    case 3:
                        Intent intent3 = new Intent(MainActivity.this, DoimatKhauActivity.class);
                        Bundle bundle2 = new Bundle();
-                       bundle2.putString("user",user);
+                       bundle2.putString("email",email);
                        bundle2.putString("pass", pass);
                        intent3.putExtras(bundle2);
                        startActivity(intent3);
@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity   {
         recyclerView.setAdapter(adaptermoinhat);
         //lấy data từ login
          Intent intent = getIntent();
-         user = intent.getStringExtra("user");
+         email = intent.getStringExtra("email");
          pass = intent.getStringExtra("pass");
         //
     }
@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity   {
                 return false;
             }
         });
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override

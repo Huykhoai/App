@@ -49,7 +49,7 @@ public class GiohangActivity extends AppCompatActivity {
     }
 
     public static void UpdateTongtien() {
-         long tongtien = 0;
+         long  tongtien = 0;
          for(int i=0; i<MainActivity.manggiohang.size();i++){
              tongtien += MainActivity.manggiohang.get(i).getGiasp();
         }

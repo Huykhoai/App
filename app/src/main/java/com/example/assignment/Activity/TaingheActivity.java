@@ -353,7 +353,7 @@ public class TaingheActivity extends AppCompatActivity {
                                 params.put("price", price);
                                 params.put("desc", desc);
                                 params.put("image", image);
-                                params.put("idloaisp", String.valueOf(idloaisanpham));
+                                //params.put("idloaisp", String.valueOf(idloaisanpham));
                                 return params;
                             }
                         };
@@ -481,8 +481,8 @@ public class TaingheActivity extends AppCompatActivity {
         mHander = new mHander();
 
         Intent intent = getIntent();
-        user= intent.getStringExtra("user");
-        if(user.equalsIgnoreCase("admin")){
+        user= intent.getStringExtra("email");
+        if(user.equalsIgnoreCase("admin@gmail.com")){
             fab.setVisibility(View.VISIBLE);
         }else {
             fab.setVisibility(View.INVISIBLE);

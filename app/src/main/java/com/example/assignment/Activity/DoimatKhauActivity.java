@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -110,21 +111,15 @@ public class DoimatKhauActivity extends AppCompatActivity {
         tilPassNew = findViewById(R.id.pass_tilnewpass);
         tilConfirm = findViewById(R.id.pass_tilnewpasscheck);
 
+        SharedPreferences spf = getSharedPreferences("THONGTIN",MODE_PRIVATE);
+        username = spf.getString("USERNAME", "");
+        String username1 ;
         Intent intent = getIntent();
-        pass = intent.getStringExtra("pass");
-        username = intent.getStringExtra("user");
-        if(pass== null){
-            Toast.makeText(this, "lấy mật khẩu thất bại", Toast.LENGTH_SHORT).show();
-        }else {
-            Log.d("pass: ", pass.toString());
-        }
-        if(username == null){
-            Toast.makeText(this, "lấy username thất bại", Toast.LENGTH_SHORT).show();
-        }else {
-            Log.d("username: ", username.toString());
-        }
+        username1 = intent.getStringExtra("pass");
 
-
+        if(username== null){
+            username = username1;
+        }
     }
     private int validate(String passOld,String passNew,String confirm){
         if(passOld.length()==0){
