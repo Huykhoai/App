@@ -115,7 +115,7 @@
         android:orientation="horizontal"
         android:gravity="center">
         <ImageView
-            android:id="@+id/fabFacebook"
+            android:id="@+id/fabFacebook_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -123,7 +123,7 @@
             android:backgroundTint="@color/white"/>
 
         <ImageView
-            android:id="@+id/fabGoogle"
+            android:id="@+id/fabGoogle_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -131,7 +131,7 @@
             android:backgroundTint="@color/white"/>
 
         <ImageView
-            android:id="@+id/fabTwiter"
+            android:id="@+id/fabTwiter_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"

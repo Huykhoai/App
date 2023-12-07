@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.example.assignment.Activity.LoginActivity;
 import com.example.assignment.Activity.MainActivity;
 import com.example.assignment.R;
 import com.example.assignment.util.server;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.HashMap;
@@ -42,6 +44,7 @@ public class LoginFragment extends Fragment {
     Button btnLogin;
     CheckBox checkBox;
     int temp=0;
+    ImageView fabFacebook,fabGoogle,fabTwiter;
     public LoginFragment(){
 
     }
@@ -52,8 +55,12 @@ public class LoginFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_login, container, false);
         Anhxa(view);
         onclickButton();
+        animation();
         return view;
     }
+
+
+
     private void Anhxa(View view) {
         edEmail = view.findViewById(R.id.login_edemail);
         edPass = view.findViewById(R.id.login_edpassword);
@@ -61,6 +68,10 @@ public class LoginFragment extends Fragment {
         checkBox = view.findViewById(R.id.login_checkBox);
         tilEmail = view.findViewById(R.id.login_tilemail);
         tilPass = view.findViewById(R.id.login_tilpassword);
+
+        fabFacebook = view.findViewById(R.id.fabFacebook);
+        fabGoogle = view.findViewById(R.id.fabGoogle);
+        fabTwiter = view.findViewById(R.id.fabTwiter);
 
         SharedPreferences spf = getActivity().getSharedPreferences("THONGTIN", Context.MODE_PRIVATE);
         edEmail.setText(spf.getString("EMAIL", ""));
@@ -168,5 +179,18 @@ public class LoginFragment extends Fragment {
             editor.putBoolean("REMEMBER", status);
         }
         editor.commit();
+    }
+    private void animation() {
+        fabFacebook.setTranslationY(500);
+        fabGoogle.setTranslationY(500);
+        fabTwiter.setTranslationY(500);
+        float alpha = 0;
+        fabFacebook.setAlpha(alpha);
+        fabGoogle.setAlpha(alpha);
+        fabTwiter.setAlpha(alpha);
+
+        fabFacebook.animate().translationY(0).alpha(1).setDuration(1500).setStartDelay(1000).start();
+        fabGoogle.animate().translationY(0).alpha(1).setDuration(1500).setStartDelay(1200).start();
+        fabTwiter.animate().translationY(0).alpha(1).setDuration(1500).setStartDelay(1400).start();
     }
 }

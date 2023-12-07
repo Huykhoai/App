@@ -66,6 +66,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         mediator.attach();
+
+        tabLayout.setTranslationY(-500);
+        tabLayout.animate().translationY(0).setDuration(1500).setStartDelay(1000).start();
     }
 
 

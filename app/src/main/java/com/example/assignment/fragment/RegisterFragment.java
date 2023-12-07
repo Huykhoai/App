@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,9 +36,8 @@ import java.util.Map;
 public class RegisterFragment extends Fragment {
     EditText edRegisterName,edRegisterPass,edRegisterEmail;
     TextInputLayout tilRegisterName,tilRegisterPass,tilRegisterEmail;
-
     Button btnRegister;
-
+    ImageView fabFacebook,fabGoogle,fabTwiter;
     int temp=0;
    public RegisterFragment(){
    }
@@ -49,6 +49,7 @@ public class RegisterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         Anhxa(view);
         onClickButton();
+        animation();
         return view;
     }
 
@@ -108,6 +109,10 @@ public class RegisterFragment extends Fragment {
         edRegisterName = view.findViewById(R.id.register_edusername);
         edRegisterPass = view.findViewById(R.id.register_edpassword);
 
+        fabFacebook = view.findViewById(R.id.fabFacebook_register);
+        fabGoogle = view.findViewById(R.id.fabGoogle_register);
+        fabTwiter = view.findViewById(R.id.fabTwiter_register);
+
         btnRegister = view.findViewById(R.id.register_btnregister);
     }
     private void validate(String name,String pass,String email){
@@ -139,7 +144,18 @@ public class RegisterFragment extends Fragment {
                 temp=0;
             }
         }
-
     }
+    private void animation() {
+        fabFacebook.setTranslationY(500);
+        fabGoogle.setTranslationY(500);
+        fabTwiter.setTranslationY(500);
+        float alpha = 0;
+        fabFacebook.setAlpha(alpha);
+        fabGoogle.setAlpha(alpha);
+        fabTwiter.setAlpha(alpha);
 
+        fabFacebook.animate().translationY(0).alpha(1).setDuration(1500).setStartDelay(1000).start();
+        fabGoogle.animate().translationY(0).alpha(1).setDuration(1500).setStartDelay(1200).start();
+        fabTwiter.animate().translationY(0).alpha(1).setDuration(1500).setStartDelay(1400).start();
+    }
 }
