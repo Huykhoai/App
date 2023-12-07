@@ -1,5 +1,6 @@
 package com.example.assignment.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -61,6 +62,9 @@ public class RegisterFragment extends Fragment {
                 String name = edRegisterName.getText().toString();
                 String pass = edRegisterPass.getText().toString();
 
+                ProgressDialog progressDialog =new ProgressDialog(getActivity());
+                progressDialog.setMessage("Loading...");
+                progressDialog.show();
                 validate(name, pass,email);
                 if(temp==0){
                     RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -68,13 +72,15 @@ public class RegisterFragment extends Fragment {
                         @Override
                         public void onResponse(String response) {
                             if(response.equals("-1")){
+                                progressDialog.dismiss();
                                 Toast.makeText(getActivity(), "Đăng kí thất bại!", Toast.LENGTH_SHORT).show();
-
                             }else if(response.equals("0")){
                                 Toast.makeText(getActivity(), "Tên tài khoản đã tồn tại!", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
                             }else {
                                 Toast.makeText(getActivity(), "Đăng kí thành công", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
+                                progressDialog.dismiss();
                             }
                         }
                     }, new Response.ErrorListener() {

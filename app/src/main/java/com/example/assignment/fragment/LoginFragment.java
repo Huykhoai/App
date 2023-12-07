@@ -1,5 +1,6 @@
 package com.example.assignment.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -86,6 +87,11 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 String email = edEmail.getText().toString().trim();
                 String pass = edPass.getText().toString().trim();
+
+                ProgressDialog progressDialog =new ProgressDialog(getActivity());
+                progressDialog.setMessage("Loading...");
+                progressDialog.show();
+
                 if (validateLogin(email, pass) > 0) {
                     RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, server.duongdanlogin, new Response.Listener<String>() {
@@ -99,11 +105,13 @@ public class LoginFragment extends Fragment {
                                 intent.putExtra("pass", pass);
                                 startActivity(intent);
                                 rememberUser(email, pass, checkBox.isChecked());
+                                progressDialog.dismiss();
                             }else if(Integer.parseInt(response.trim())==0){
                                 Toast.makeText(getActivity(), "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
                             }else {
                                 Toast.makeText(getActivity(), " Mật khẩu không đúng", Toast.LENGTH_SHORT).show();
-                                Log.d( "passLOgin: ", response);
+                                progressDialog.dismiss();
                             }
 
                         }
